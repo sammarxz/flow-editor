@@ -1,12 +1,20 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 import styles from "./styles.module.css";
 
+const defaultClickedPosition = {
+  x: -1,
+  y: -1,
+};
+
 export function Board() {
-  let boardWrapperRef;
+  let boardWrapperRef: HTMLDivElement | undefined;
   let boardRef: HTMLDivElement | undefined;
 
   const [isGrabbing, setIsGrabbing] = createSignal(false);
   const [scale, setScale] = createSignal(1);
+  const [clickedPosition, setClickedPosition] = createSignal(
+    defaultClickedPosition
+  );
 
   onMount(() => {
     if (boardRef) {
@@ -35,11 +43,33 @@ export function Board() {
     }
   });
 
-  const handleMouseDown = () => {};
+  const handleMouseDown = (event: MouseEvent) => {
+    setIsGrabbing(true);
+    setClickedPosition({
+      x: event.x,
+      y: event.y,
+    });
+  };
 
-  const handleMouseUp = () => {};
+  const handleMouseUp = (event: MouseEvent) => {
+    setIsGrabbing(false);
+    setClickedPosition(defaultClickedPosition);
+  };
 
-  const handleMouseMove = () => {};
+  const handleMouseMove = (event: MouseEvent) => {
+    if (clickedPosition().x >= 0 && clickedPosition().y >= 0) {
+      const deltaX = event.x - clickedPosition().x;
+      const deltaY = event.y - clickedPosition().y;
+
+      if (boardWrapperRef) {
+        boardWrapperRef.scrollBy(-deltaX, -deltaY);
+        setClickedPosition({
+          x: event.x,
+          y: event.y,
+        });
+      }
+    }
+  };
 
   return (
     <div ref={boardWrapperRef} class={styles.wrapper}>
