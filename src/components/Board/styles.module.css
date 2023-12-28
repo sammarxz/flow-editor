@@ -1,0 +1,33 @@
+.wrapper,
+.board {
+  width: 100vw;
+  height: 100vh;
+}
+
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: scroll;
+}
+
+.board {
+  cursor: grab;
+  position: relative;
+  background-size: 32px 32px;
+  background-image: radial-gradient(circle, #b8b8b8bf 1px, rgba(0,0,0,0) 1px);
+}
+
+.board.is-grabbing {
+  cursor: grabbing;
+}
+
+@media (prefers-color-scheme: dark) {
+  .wrapper {
+    background-color: #181818;
+  }
+
+  .board {
+    background-image: radial-gradient(circle, #515151bf 1px, rgba(0,0,0,0) 1px);
+  }
+}

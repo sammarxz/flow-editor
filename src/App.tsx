@@ -1,9 +1,11 @@
 import type { Component } from "solid-js";
 
+import { Board } from "./components";
+
 const App: Component = () => {
   return (
     <div>
-      <h1>Hello World</h1>
+      <Board />
     </div>
   );
 };
